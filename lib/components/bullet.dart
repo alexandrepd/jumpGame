@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jumpGame/core/utils.dart';
 
-class Heli extends StatefulWidget {
+class Bullet extends StatefulWidget {
   @override
-  _HeliState createState() => _HeliState();
+  _BulletState createState() => _BulletState();
 }
 
-class _HeliState extends State<Heli> {
+class _BulletState extends State<Bullet> {
   GlobalKey _key = GlobalKey();
 
   double componentHorizontalPosition;
@@ -34,9 +34,9 @@ class _HeliState extends State<Heli> {
       // color: Colors.blue,
       child: Container(
         key: _key,
-        height: 60,
-        width: 60,
-        child: Image.asset('images/heli.png'),
+        height: 100,
+        width: 100,
+        child: Image.asset('images/bullet.png'),
       ),
     );
   }

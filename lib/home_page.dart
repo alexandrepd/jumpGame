@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:jumpGame/components/duck.dart';
-import 'package:jumpGame/components/heli.dart';
+import 'package:jumpGame/components/bullet.dart';
 import 'package:jumpGame/components/cloud.dart';
 import 'package:jumpGame/core/jump_dialog.dart';
 
@@ -13,16 +13,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static double duckVerticalPosition = 0;
-
+  double oldposition = 0.0;
   double time = 0;
   double height = 0;
   double initialHeight = 0;
   bool hasStartedGame = false;
   int recorde = 0;
   int resultado = 0;
+  bool up = false;
 
   void jump() {
     resultado++;
+    up = true;
     recorde = resultado > recorde ? resultado : recorde;
     time = 0;
     initialHeight = duckVerticalPosition;
@@ -38,6 +40,13 @@ class _HomePageState extends State<HomePage> {
         height = -5.0 * time * time + 3.5 * time;
 
         duckVerticalPosition = initialHeight - height;
+        print('duckVerticalPosition $duckVerticalPosition');
+        if (oldposition < duckVerticalPosition) {
+          up = true;
+        } else {
+          up = false;
+        }
+        oldposition = duckVerticalPosition;
       });
 
       if (duckVerticalPosition > 0.998760000000003) {
@@ -62,6 +71,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
+          up = true;
           if (hasStartedGame) {
             jump();
           }
@@ -84,20 +94,22 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     recordInfo(),
                     Cloud(),
-                    Heli(),
                     Cloud(),
-                    Heli(),
-                    Cloud(),
-                    Heli(),
+                    Bullet(),
                     Cloud(),
                     Cloud(),
-                    // Plane(),
+                    Bullet(),
                     Cloud(),
-                    // Plane(),
+                    Cloud(),
+                    Bullet(),
+                    Cloud(),
+                    Cloud(),
                     AnimatedContainer(
                       alignment: Alignment(0, duckVerticalPosition),
                       duration: Duration(milliseconds: 0),
-                      child: Duck(),
+                      child: Duck(
+                        up: up,
+                      ),
                     ),
                   ],
                 ),
@@ -115,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Center(child: pointsInfo()),
                         SizedBox(
-                          height: 40.0,
+                          height: 10.0,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -202,7 +214,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget pointsInfo() {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 20.0, 0, 0),
+      margin: EdgeInsets.fromLTRB(0, 10.0, 0, 0),
       child: Column(
         children: [
           Text(
