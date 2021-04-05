@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         height = -5.0 * time * time + 3.5 * time;
 
         duckVerticalPosition = initialHeight - height;
-        print('duckVerticalPosition $duckVerticalPosition');
+
         if (oldposition < duckVerticalPosition) {
           up = true;
         } else {
@@ -56,14 +56,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   void resetAll() {
-    setState(() {
-      duckVerticalPosition = 0;
-      time = 0;
-      height = 0;
-      initialHeight = 0;
-      hasStartedGame = false;
-      resultado = 0;
-    });
+    if (hasStartedGame) {
+      setState(() {
+        duckVerticalPosition = 0;
+        time = 0;
+        height = 0;
+        initialHeight = 0;
+        hasStartedGame = false;
+        resultado = 0;
+      });
+    }
   }
 
   @override
